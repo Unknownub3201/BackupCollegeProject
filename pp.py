@@ -1,7 +1,7 @@
 import Module
 import tkinter 
 window = tkinter.Tk()
-window.title("Encrypto")
+window.title("EnKruptos")
 window.geometry("324x415")
 
 # def createMatrix(text, key):
