@@ -4,48 +4,57 @@ window = tkinter.Tk()
 window.title("EnKruptos")
 window.geometry("324x415")
 
-# def createMatrix(text, key):
-    # matrixSize = int(key)
-    # numbers = [int(num) for num in text.split()]
-    # numbers = [ord(char) - ord('A') for char in text]
+# Creating a proper order matrix from user's inputs(in case of Hill Cipher)
+# def createMatrix(numbers, matrixSize):
     # paddingSize = (matrixSize - len(numbers) % matrixSize) % matrixSize
     # numbers += [0] * paddingSize
-    # matrix = [numbers[i:i+matrixSize] for i in range(0, len(numbers), matrixSize)]
-    # return matrix
+    # matrix = [numbers[i:i + matrixSize] for i in range(0, len(numbers), matrixSize)]
+    # return matrix 
 
 # Differentiating among the user's choice of cipher method
 def select_caesar():
     global selected_method
+    print("Selected Caesar Cipher")
     keyEntry.delete(0, tkinter.END)
-    keyEntry.insert(0, "Key must be the number of character shift")
+    keyEntry.insert(0, "Key must be the number of character shift.")
     selected_method = "Caesar"
 
 def select_Mono():
     global selected_method
+    print("Selected MonoAlphabetic Cipher")
     keyEntry.delete(0, tkinter.END)
-    keyEntry.insert(0, "Key must contain 26 unique characters ")
+    keyEntry.insert(0, "Key must contain 26 unique characters.")
     selected_method = "MonoAlphabetic"
 
 def select_playfair():
     global selected_method
+    print("Selected PlayFair Cipher")
+    keyEntry.delete(0, tkinter.END)
+    keyEntry.insert(0, "Key must be a word.")
     selected_method = "PlayFair"
 
 def select_hill():
     global selected_method 
+    print("Selected Hill Cipher")
     selected_method = "Hill"
 
 def select_vigenere():
     global selected_method
+    print("Selected Vigenere Cipher")
+    keyEntry.delete(0, tkinter.END)
+    keyEntry.insert(0, "Key must be a word.")
     selected_method = "Vigenere"
 
 def select_railfence():
     global selected_method
+    print("Selected RailFence Cipher")
     keyEntry.delete(0, tkinter.END)
     keyEntry.insert(0, "Key must be the number of diagonal shift")
     selected_method = "RailFence"
 
 def select_columnar():
     global selected_method
+    print("Selected Columnar Cipher")
     keyEntry.delete(0, tkinter.END)
     keyEntry.insert(0, "Key must be the order of the arrangements")
     selected_method = "Columnar"
@@ -55,50 +64,56 @@ def callEncryptMethod():
     if selected_method == "Caesar":
         InitialText = "Key must be shift Number"
         outputText.insert("1.0", InitialText)
-        pt = inputText.get("1.0", "end-1c")
+        plainText = inputText.get("1.0", "end-1c")
         key = keyEntry.get()
         test = Module.CaesarCipher(key)
-        encryptedText = test.Encrypt(pt)
-        print(encryptedText)
+        encryptedText = test.Encrypt(plainText)
+        print(f"Key:{key}")
+        print(f"Caesar Encryption: {encryptedText}")
         outputText.delete("1.0", "end")
         outputText.insert("1.0", encryptedText)
 
     if selected_method == "MonoAlphabetic":
-        pt = inputText.get("1.0", "end-1c")
+        plainText = inputText.get("1.0", "end-1c")
         key = keyEntry.get()
         test = Module.MonoAlphabetic(key)
-        encryptedText = test.Encrypt(pt)
-        print(encryptedText)
+        encryptedText = test.Encrypt(plainText)
+        print(f"Key:{key}")
+        print(f"MonoAlphabetic Encryption: {encryptedText}")
         outputText.delete("1.0", "end")
         outputText.insert("1.0", encryptedText)
 
     elif selected_method == "PlayFair":
         test = Module.Playfair()
-        pt = inputText.get("1.0", "end-1c")
+        plainText = inputText.get("1.0", "end-1c")
         key = keyEntry.get()
-        encryptedText = test.Encrypt(pt, key)
-        print(encryptedText)
+        encryptedText = test.Encrypt(plainText, key)
+        print(f"key:{key}")
+        print(f"PlayFair Encryption: {encryptedText}")
         outputText.delete("1.0", "end")
         outputText.insert("1.0", encryptedText)
 
     elif selected_method == "Hill":
-        pass
+        # matrixSize = int(MatrixSizeEntry.get())
         # key = keyEntry.get()
-        # size = MatrixSizeEntry.get()
-        # finalKey = createMatrix(key, size)
-        # print(finalKey)
+        # keyArray = [int(char) for char in key]
+        # finalKey = createMatrix(keyArray, matrixSize)
         # test = Module.Hill(finalKey)
         # plainText = inputText.get("1.0", "end-1c")
         # encryptedText = test.Encrypt(plainText)
-        # outputText.delete("1.0","end")
+        # print(f"Key:{finalKey}")
+        # print(f"Hill Encryption: {encryptedText}")
+        # outputText.delete("1.0", "end-1c")
         # outputText.insert("1.0", encryptedText)
+        pass
 
     elif selected_method == "Vigenere":        
         key = keyEntry.get()
         test = Module.Vignere(key)
         plainText = inputText.get("1.0", "end-1c")
         encryptedText = test.Encrypt(plainText)
-        print(encryptedText)
+        print(f"Key:{key}")
+        print(f"Vigenere Encryption: {encryptedText}")
         outputText.delete("1.0", "end")
         outputText.insert("1.0", encryptedText)
 
@@ -108,7 +123,8 @@ def callEncryptMethod():
         plainText = inputText.get("1.0", "end-1c")
         key = keyEntry.get()
         encryptedText = test.Encrypt(plainText, int(key))
-        print(encryptedText)
+        print(f"Key:{key}")
+        print(f"RailFence Encryption: {encryptedText}")
         outputText.delete("1.0", "end")
         outputText.insert("1.0", encryptedText)
 
@@ -119,7 +135,8 @@ def callEncryptMethod():
         plainText = inputText.get("1.0", "end-1c")
         test = Module.Columnar(keyArray)
         encryptedText = test.Encrypt(plainText)
-        print(encryptedText)
+        print(f"Key:{key}")
+        print(f"Columnar Encryption: {encryptedText}")
         outputText.delete("1.0", "end")
         outputText.insert("1.0", encryptedText)
 
@@ -130,7 +147,8 @@ def callDecryptMethod():
         key = keyEntry.get()
         test = Module.CaesarCipher(key)
         decryptedText = test.Decrypt(cipherText)
-        print(decryptedText)
+        print(f"Key:{key}")
+        print(f"Caesar Decryption: {decryptedText}")
         outputText.delete("1.0", "end")
         outputText.insert("1.0", decryptedText)
 
@@ -139,7 +157,8 @@ def callDecryptMethod():
         key = keyEntry.get()
         test = Module.MonoAlphabetic(key)
         decryptedText = test.Decrypt(cipherText)
-        print(decryptedText)
+        print(f"Key:{key}")
+        print(f"MonoAlphabetic Decryption: {decryptedText}")
         outputText.delete("1.0", "end")
         outputText.insert("1.0", decryptedText)
 
@@ -148,11 +167,23 @@ def callDecryptMethod():
         cipherText = inputText.get("1.0", "end-1c")
         key = keyEntry.get()
         decryptedText = test.Decrypt(cipherText, key)
-        print(decryptedText)
+        print(f"Key:{key}")
+        print(f"PlayFair Decryption: {decryptedText}")
         outputText.delete("1.0", "end")
         outputText.insert("1.0", decryptedText)
         
     elif selected_method == "Hill":
+        # matrixSize = int(MatrixSizeEntry.get())
+        # key = keyEntry.get()
+        # keyArray = [int(char) for char in key]
+        # finalKey = createMatrix(keyArray, matrixSize)
+        # test = Module.Hill(finalKey)
+        # cipherText = inputText.get("1.0", "end-1c")
+        # decryptedText = test.Decrypt(cipherText)
+        # print(f"Key:{key}")
+        # print(f"Hill Decryption: {decryptedText}")
+        # outputText.delete("1.0", "end")
+        # outputText.insert("1.0", decryptedText)
         pass
 
     elif selected_method == "Vigenere":
@@ -160,7 +191,8 @@ def callDecryptMethod():
         test = Module.Vignere(key)
         cipherText = inputText.get("1.0", "end-1c")
         decryptedText = test.Decrypt(cipherText)
-        print(decryptedText)
+        print(f"Key:{key}")
+        print(f"Vigenere Decryption: {decryptedText}")
         outputText.delete("1.0", "end")
         outputText.insert("1.0", decryptedText)
 
@@ -169,7 +201,8 @@ def callDecryptMethod():
         cipherText = inputText.get("1.0", "end-1c")
         key = keyEntry.get()
         decryptedText = test.Decrypt(cipherText, int(key))
-        print(decryptedText)
+        print(f"Key:{key}")
+        print(f"RailFence Decryption: {decryptedText}")
         outputText.delete("1.0", "end")
         outputText.insert("1.0", decryptedText)
 
@@ -180,7 +213,8 @@ def callDecryptMethod():
         cipherText = inputText.get("1.0", "end-1c")
         test = Module.Columnar(keyArray)
         decryptedText = test.Decrypt(cipherText)
-        print(decryptedText)
+        print(f"Key:{key}")
+        print(f"Columnar Decryption: {decryptedText}")
         outputText.delete("1.0", "end")
         outputText.insert("1.0", decryptedText)
 
@@ -197,7 +231,7 @@ mono.place(x=170, y=25)
 playfair = tkinter.Button(window, text="PlayFair", command=select_playfair, width=12)
 playfair.place(x=15, y=60)
 
-hill = tkinter.Button(window,text="Hill Cipher", command=select_hill, width=12)
+# hill = tkinter.Button(window,text="Hill Cipher", command=select_hill, width=12)
 # hill.pack()
 
 vigenere = tkinter.Button(window, text="Vigenere", command=select_vigenere, width=12)
@@ -221,7 +255,7 @@ keyLabel.place(x=130, y=220)
 keyEntry = tkinter.Entry(window, width=40)
 keyEntry.place(x=0, y=240)
 
-# In case of Hill cipher, the size of key matrix 
+# In case of Hill cipher, taking the order of key matrix from the user 
 # MatrixSizeLabel = tkinter.Label(window, text="Matrix Size")
 # MatrixSizeLabel.pack()
 # MatrixSizeEntry = tkinter.Entry(window)
@@ -239,6 +273,7 @@ outputLabel.place(x=120, y=325)
 outputText = tkinter.Text(window, height=2.5, width=40)
 outputText.place(x=0, y=345)
 
+# Just a simple function to check the coordinates of the cursor
 # def motion(event):
     # x, y = event.x, event.y
     # print('{}, {}'.format(x,y))

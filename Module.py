@@ -115,7 +115,6 @@ class Playfair:
                 decryptedText += playfairMatrix[(row1 - 1) % 5][col1] + playfairMatrix[(row2 - 1) % 5][col2]
             else:
                 decryptedText += playfairMatrix[row1][col2] + playfairMatrix[row2][col1]
-        decryptedText = decryptedText.replace("x","")
         return decryptedText
 
 class RailFence:
@@ -138,6 +137,7 @@ class RailFence:
                 if rail[i][j] != '\n':
                     result.append(rail[i][j])
         return("".join(result))
+
     def Decrypt(self, cipher, key):
         rail = [['\n' for i in range(len(cipher))] for j in range(key)]
         dir_down = None
