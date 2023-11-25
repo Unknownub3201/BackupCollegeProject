@@ -1,7 +1,7 @@
-# En-Kruptos
+#En-Kruptos
 
 A GUI python based program which enables users to encrypt/decrypt texts using simple cipher methods(mainly Substitution and Transposition ciphers).
 
-## A little more Description 
+##A little more Description 
 
-This is a college project and I didn't get enough time, so it might not be up to the professional standards but I tried my best since it's my first time working with GUI.
+This is a college project and I didn't get enough time, so it might not be up to the professional standards but I tried my best since it's my first time working with GUI. The project works except for the Hill cipher, I'll have to test the code as it has some errors in it. Apart from that and the Playfair Cipher printing out the filler letters in decryption everything works perfectly fine, I hope. 😃
