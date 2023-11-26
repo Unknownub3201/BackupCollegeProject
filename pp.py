@@ -26,6 +26,13 @@ def select_Mono():
     keyEntry.insert(0, "Key must contain 26 unique characters.")
     selected_method = "MonoAlphabetic"
 
+def select_Atbash():
+    global selected_method
+    print("Selected Atbash Cipher")
+    keyEntry.delete(0, tkinter.END)
+    keyEntry.insert(0, "No Need to Enter the Key")
+    selected_method = "Atbash"
+
 def select_playfair():
     global selected_method
     print("Selected PlayFair Cipher")
@@ -80,6 +87,14 @@ def callEncryptMethod():
         encryptedText = test.Encrypt(plainText)
         print(f"Key:{key}")
         print(f"MonoAlphabetic Encryption: {encryptedText}")
+        outputText.delete("1.0", "end")
+        outputText.insert("1.0", encryptedText)
+
+    elif selected_method == "Atbash":
+        plainText = inputText.get("1.0", "end-1c")
+        test = Module.Atbash()
+        encryptedText = test.Encrypt(plainText)
+        print(f"Atbash Encryption: {encryptedText}")
         outputText.delete("1.0", "end")
         outputText.insert("1.0", encryptedText)
 
@@ -162,6 +177,14 @@ def callDecryptMethod():
         outputText.delete("1.0", "end")
         outputText.insert("1.0", decryptedText)
 
+    elif selected_method == "Atbash":
+        cipherText = inputText.get("1.0","end-1c")
+        test = Module.Atbash()
+        decryptedText = test.Decrypt(cipherText)
+        print(f"Atbash Decryption: {decryptedText}")
+        outputText.delete("1.0", "end")
+        outputText.insert("1.0", decryptedText)
+
     elif selected_method == "PlayFair":
         test = Module.Playfair()
         cipherText = inputText.get("1.0", "end-1c")
@@ -231,6 +254,9 @@ mono.place(x=170, y=25)
 playfair = tkinter.Button(window, text="PlayFair", command=select_playfair, width=12)
 playfair.place(x=15, y=60)
 
+atbash = tkinter.Button(window, text="Atbash", command=select_Atbash, width=12)
+atbash.place(x=100, y=135)
+
 # hill = tkinter.Button(window,text="Hill Cipher", command=select_hill, width=12)
 # hill.pack()
 
@@ -245,15 +271,15 @@ columnar.place(x=170, y=95)
 
 # Creating a text box to take the PlainText
 InputLabel = tkinter.Label(window, text="Plain Text: ")
-InputLabel.place(x=120, y=135)
+InputLabel.place(x=120, y=170)
 inputText = tkinter.Text(window,height=2.5, width=40)
-inputText.place(x=0, y=155)
+inputText.place(x=0, y=190)
 
 # Creating textbox to take the Key 
 keyLabel = tkinter.Label(window, text="Key: ")
-keyLabel.place(x=130, y=220)
+keyLabel.place(x=130, y=250)
 keyEntry = tkinter.Entry(window, width=40)
-keyEntry.place(x=0, y=240)
+keyEntry.place(x=0, y=270)
 
 # In case of Hill cipher, taking the order of key matrix from the user 
 # MatrixSizeLabel = tkinter.Label(window, text="Matrix Size")
@@ -263,20 +289,20 @@ keyEntry.place(x=0, y=240)
 
 # Creating encryption and decryption buttons 
 encryptButton = tkinter.Button(window, text="Encrypt", command=callEncryptMethod, width=12)
-encryptButton.place(x=20, y=280)
+encryptButton.place(x=20, y=295)
 decryptButton = tkinter.Button(window, text="Decrypt", command=callDecryptMethod, width=12)
-decryptButton.place(x=165, y=280)
+decryptButton.place(x=165, y=295)
 
 # Textbox for Results 
 outputLabel = tkinter.Label(window, text="Cipher Text: ")
-outputLabel.place(x=120, y=325) 
+outputLabel.place(x=120, y=335) 
 outputText = tkinter.Text(window, height=2.5, width=40)
-outputText.place(x=0, y=345)
+outputText.place(x=0, y=355)
 
 # Just a simple function to check the coordinates of the cursor
-# def motion(event):
-    # x, y = event.x, event.y
-    # print('{}, {}'.format(x,y))
-# window.bind('<Motion>', motion)
+def motion(event):
+    x, y = event.x, event.y
+    print('{}, {}'.format(x,y))
+window.bind('<Motion>', motion)
 
 window.mainloop()

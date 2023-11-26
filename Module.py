@@ -300,3 +300,23 @@ class Columnar:
                 plainText += matrix[row][col]
         return plainText
 
+class Atbash:
+    def __init__(self):
+        self.key = 'zyxwvutsrqponmlkjihgfedcba'
+
+    def Encrypt(self, plainText):
+        cipherDict = {letter: self.key[i] for i, letter in enumerate(defaultText)}
+        plainText = plainText.lower().replace(" ","")
+        cipherText = ''
+        for character in plainText:
+            cipherText += cipherDict[character]
+        return cipherText
+
+    def Decrypt(self, cipherText):
+        cipherDict = {letter: self.key[i] for i,letter in enumerate(defaultText)}
+        decipherDict = {v:k for k,v in cipherDict.items()}
+        cipherText = cipherText.lower().replace(" ","")
+        plainText = ''
+        for character in cipherText:
+            plainText += decipherDict[character]
+        return plainText
