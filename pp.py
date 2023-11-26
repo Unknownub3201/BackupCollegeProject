@@ -1,5 +1,21 @@
 import Module
-import tkinter 
+import tkinter
+import importlib
+import subprocess
+
+def checkInstall(moduleName):
+    try:
+        importlib.import_module(moduleName)
+        print(f"{moduleName} is already installed.")
+    except ImportError:
+        print(f"{moduleName} is not installed. Installating...")
+        subprocess.run(["pip", "install", moduleName])
+        print(f"{moduleName} has been installed successfully.")
+
+requiredMod = ["numpy", "tkinter", "customtkinter"]
+for module in requiredMod:
+    checkInstall(module)
+
 window = tkinter.Tk()
 window.title("EnKruptos")
 window.geometry("324x415")
@@ -300,9 +316,9 @@ outputText = tkinter.Text(window, height=2.5, width=40)
 outputText.place(x=0, y=355)
 
 # Just a simple function to check the coordinates of the cursor
-def motion(event):
-    x, y = event.x, event.y
-    print('{}, {}'.format(x,y))
-window.bind('<Motion>', motion)
+# def motion(event):
+    # x, y = event.x, event.y
+    # print('{}, {}'.format(x,y))
+# window.bind('<Motion>', motion)
 
 window.mainloop()
