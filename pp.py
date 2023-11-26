@@ -1,12 +1,10 @@
-import Module
-import tkinter
 import importlib
 import subprocess
 
+# Checking if the system has the required modules 
 def checkInstall(moduleName):
     try:
         importlib.import_module(moduleName)
-        print(f"{moduleName} is already installed.")
     except ImportError:
         print(f"{moduleName} is not installed. Installating...")
         subprocess.run(["pip", "install", moduleName])
@@ -16,16 +14,15 @@ requiredMod = ["numpy", "tkinter", "customtkinter"]
 for module in requiredMod:
     checkInstall(module)
 
+# Importing modules for various cipher methods and GUI
+import Module
+import tkinter
+
+# Creating GUI Window 
 window = tkinter.Tk()
 window.title("EnKruptos")
 window.geometry("324x415")
-
-# Creating a proper order matrix from user's inputs(in case of Hill Cipher)
-# def createMatrix(numbers, matrixSize):
-    # paddingSize = (matrixSize - len(numbers) % matrixSize) % matrixSize
-    # numbers += [0] * paddingSize
-    # matrix = [numbers[i:i + matrixSize] for i in range(0, len(numbers), matrixSize)]
-    # return matrix 
+window.resizable(False, False)
 
 # Differentiating among the user's choice of cipher method
 def select_caesar():
@@ -55,11 +52,6 @@ def select_playfair():
     keyEntry.delete(0, tkinter.END)
     keyEntry.insert(0, "Key must be a word.")
     selected_method = "PlayFair"
-
-def select_hill():
-    global selected_method 
-    print("Selected Hill Cipher")
-    selected_method = "Hill"
 
 def select_vigenere():
     global selected_method
@@ -124,20 +116,6 @@ def callEncryptMethod():
         outputText.delete("1.0", "end")
         outputText.insert("1.0", encryptedText)
 
-    elif selected_method == "Hill":
-        # matrixSize = int(MatrixSizeEntry.get())
-        # key = keyEntry.get()
-        # keyArray = [int(char) for char in key]
-        # finalKey = createMatrix(keyArray, matrixSize)
-        # test = Module.Hill(finalKey)
-        # plainText = inputText.get("1.0", "end-1c")
-        # encryptedText = test.Encrypt(plainText)
-        # print(f"Key:{finalKey}")
-        # print(f"Hill Encryption: {encryptedText}")
-        # outputText.delete("1.0", "end-1c")
-        # outputText.insert("1.0", encryptedText)
-        pass
-
     elif selected_method == "Vigenere":        
         key = keyEntry.get()
         test = Module.Vignere(key)
@@ -147,7 +125,6 @@ def callEncryptMethod():
         print(f"Vigenere Encryption: {encryptedText}")
         outputText.delete("1.0", "end")
         outputText.insert("1.0", encryptedText)
-
 
     elif selected_method == "RailFence":
         test = Module.RailFence()
@@ -210,20 +187,6 @@ def callDecryptMethod():
         print(f"PlayFair Decryption: {decryptedText}")
         outputText.delete("1.0", "end")
         outputText.insert("1.0", decryptedText)
-        
-    elif selected_method == "Hill":
-        # matrixSize = int(MatrixSizeEntry.get())
-        # key = keyEntry.get()
-        # keyArray = [int(char) for char in key]
-        # finalKey = createMatrix(keyArray, matrixSize)
-        # test = Module.Hill(finalKey)
-        # cipherText = inputText.get("1.0", "end-1c")
-        # decryptedText = test.Decrypt(cipherText)
-        # print(f"Key:{key}")
-        # print(f"Hill Decryption: {decryptedText}")
-        # outputText.delete("1.0", "end")
-        # outputText.insert("1.0", decryptedText)
-        pass
 
     elif selected_method == "Vigenere":
         key = keyEntry.get()
@@ -257,68 +220,62 @@ def callDecryptMethod():
         outputText.delete("1.0", "end")
         outputText.insert("1.0", decryptedText)
 
-# Creating buttons for cipher method selection 
+# Label for Textbox 
 cipherLabel = tkinter.Label(window, text="Cipher Method")
 cipherLabel.place(x=120, y=2)
 
+#User Cipher Method selection 
+# Caesar Cipher Button 
 caesar = tkinter.Button(window, text="Caesar",command=select_caesar, width=12)
 caesar.place(x=15, y=25)
 
+# MonoAlphabetic Cipher Button
 mono = tkinter.Button(window, text="MonoAlphabetic", command=select_Mono, width=12)
 mono.place(x=170, y=25)
 
+# PlayFair Cipher Button
 playfair = tkinter.Button(window, text="PlayFair", command=select_playfair, width=12)
 playfair.place(x=15, y=60)
 
+# AtBash Cipher Button 
 atbash = tkinter.Button(window, text="Atbash", command=select_Atbash, width=12)
 atbash.place(x=100, y=135)
 
-# hill = tkinter.Button(window,text="Hill Cipher", command=select_hill, width=12)
-# hill.pack()
-
+# Vigenere Cipher Button
 vigenere = tkinter.Button(window, text="Vigenere", command=select_vigenere, width=12)
 vigenere.place(x=170, y=60)
 
+# RailFence Cipher Button
 railfence = tkinter.Button(window, text="RailFence", command=select_railfence, width=12)
 railfence.place(x=15, y=95)
 
+# Columnar Cipher Button
 columnar = tkinter.Button(window, text="Columnar", command=select_columnar, width=12)
 columnar.place(x=170, y=95)
 
-# Creating a text box to take the PlainText
-InputLabel = tkinter.Label(window, text="Plain Text: ")
-InputLabel.place(x=120, y=170)
+# Input Label and TextBox to take Plain Text from the user 
+inputLabel = tkinter.Label(window, text="Plain Text: ")
+inputLabel.place(x=120, y=170)
 inputText = tkinter.Text(window,height=2.5, width=40)
 inputText.place(x=0, y=190)
 
-# Creating textbox to take the Key 
+# Key Label and Entry to take the Cipher Key from the user 
 keyLabel = tkinter.Label(window, text="Key: ")
 keyLabel.place(x=130, y=250)
 keyEntry = tkinter.Entry(window, width=40)
 keyEntry.place(x=0, y=270)
 
-# In case of Hill cipher, taking the order of key matrix from the user 
-# MatrixSizeLabel = tkinter.Label(window, text="Matrix Size")
-# MatrixSizeLabel.pack()
-# MatrixSizeEntry = tkinter.Entry(window)
-# MatrixSizeEntry.pack()
-
-# Creating encryption and decryption buttons 
+# Creating Encryption Button 
 encryptButton = tkinter.Button(window, text="Encrypt", command=callEncryptMethod, width=12)
 encryptButton.place(x=20, y=295)
+# Creating Decryption Button 
 decryptButton = tkinter.Button(window, text="Decrypt", command=callDecryptMethod, width=12)
 decryptButton.place(x=165, y=295)
 
-# Textbox for Results 
+# Output Label and TextBox to display the Cipher Text 
 outputLabel = tkinter.Label(window, text="Cipher Text: ")
 outputLabel.place(x=120, y=335) 
 outputText = tkinter.Text(window, height=2.5, width=40)
 outputText.place(x=0, y=355)
-
-# Just a simple function to check the coordinates of the cursor
-# def motion(event):
-    # x, y = event.x, event.y
-    # print('{}, {}'.format(x,y))
-# window.bind('<Motion>', motion)
 
 window.mainloop()

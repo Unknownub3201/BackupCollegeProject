@@ -1,4 +1,3 @@
-import numpy as np 
 defaultText = 'abcdefghijklmnopqrstuvwxyz'
 defaultTextPlay = 'abcdefghiklmnopqrstuvwxyz'
 
@@ -174,52 +173,6 @@ class RailFence:
             else: 
                 row -= 1 
         return("".join(result))
-
-class Hill:
-    def __init__(self, keyMatrix):
-        self.keyMatrix = np.array(keyMatrix)
-        self.modulus = 26 
-
-    def InverseMatrix(self, matrix, modulus):
-        det = np. linalg.det(matrix)
-        detInv = pow(int(det), -1, modulus)
-        adjMatrix = np.round(np.linalg.inv(matrix) * det * detInv) % modulus
-        return adjMatrix
-
-    def textToMatrix(self, text, n):
-        text = text.replace(" ","").upper()
-        matrix = []
-        for character in text:
-            matrix.append(ord(character) - ord('A'))
-        return np.array(matrix).reshape(-1, n)
-
-    def matrixToText(self, matrix):
-        text = ""
-        for row in matrix:
-            for val in row:
-                text += chr((int(val) % 26) + ord('A'))
-        return text
-
-    def padText(self, text, n):
-        padding = (n - len(text) % n) % n 
-        return text + 'X' * padding 
-
-    def Encrypt(self, plaintext):
-        n = self.keyMatrix.shape[0]
-        plaintext = self.padText(plaintext, n)
-        plaintextMatrix = self.textToMatrix(plaintext, n)
-        cipherMatrix = (np.dot(plaintextMatrix, self.keyMatrix)) % self.modulus
-        cipherText = self.matrixToText(cipherMatrix)
-        return cipherText
-
-    def Decrypt(self, cipherText):
-        n = self.keyMatrix.shape[0]
-        cipherTextMatrix = self.textToMatrix(cipherText, n)
-        keyInverse = self.InverseMatrix(self.keyMatrix, self.modulus)
-        plaintextMatrix = (np.dot(cipherTextMatrix, keyInverse)) % self.modulus
-        plainText = self.matrixToText(plaintextMatrix)
-        return plainText
-
 
 class Vignere:
     def __init__(self, key):
