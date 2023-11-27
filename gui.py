@@ -13,19 +13,22 @@ def updatePip():
 def checkInstall(moduleName):
     try:
         importlib.import_module(moduleName)
+        print(f"checking for :{moduleName}")
+        print(f"Requirements for {moduleName} already satisfied.")
     except ImportError:
         print(f"{moduleName} is not installed. Installing...")
         subprocess.run(["pip", "install", moduleName])
         print(f"{moduleName} has been installed successfully!")
 
 requiredMod = ["packaging", "numpy", "customtkinter"]
+try:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade", "pip", "q", "--disable-pip-version-check"])
+    print("Pip is up-to-date.")
+except subprocess.CalledProcessError:
+    print("An Update is available for pip. Updating...")
+    updatePip()
+
 for module in requiredMod:
-    try:
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade", "pip", "q", "--disable-pip-version-check"])
-        print("Pip is up-to-date.")
-    except subprocess.CalledProcessError:
-        print("An Update is available for pip. Updating...")
-        updatePip()
     checkInstall(module)
 
 # Importing modules for various cipher methods and GUI
