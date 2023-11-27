@@ -32,20 +32,20 @@ class MonoAlphabetic:
 
     def Encrypt(self, plainText):
         cipherDict = {letter: self.key[i] for i, letter in enumerate(defaultText)}
-        cipherText = ''       
+        encryptedText = ''       
         plainText = plainText.lower().replace(" ","")
         for character in plainText:
-            cipherText += cipherDict[character]
-        return cipherText
+            encryptedText += cipherDict[character]
+        return encryptedText
 
     def Decrypt(self, cipherText):
         cipherDict = {letter: self.key[i] for i, letter in enumerate(defaultText)}
         decipherDict = {v: k for k, v in cipherDict.items()}
-        plainText = ''
+        decryptedText = ''
         cipherText = cipherText.lower().replace(" ","")
         for character in cipherText:
-            plainText += decipherDict[character]
-        return plainText    
+            decryptedText += decipherDict[character]
+        return decryptedText    
 
 class Playfair:
     def cleanText(self, text):

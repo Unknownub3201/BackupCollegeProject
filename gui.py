@@ -1,5 +1,14 @@
 import importlib
 import subprocess
+import sys 
+
+def updatePip():
+    try:
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade", "pip"])
+    except subprocess.CalledProcessError as e:
+        print(f"Error updating Pip: {e}")
+        sys.exit(1)
+
 
 # Checking if the system has the required modules 
 def checkInstall(moduleName):
@@ -12,6 +21,12 @@ def checkInstall(moduleName):
 
 requiredMod = ["numpy", "customtkinter"]
 for module in requiredMod:
+    try:
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade", "pip", "q", "--disable-pip-version-check"])
+        print("Pip is up-to-date.")
+    except subprocess.CalledProcessError:
+        print("An Update is available for pip. Updating...")
+        updatePip()
     checkInstall(module)
 
 # Importing modules for various cipher methods and GUI
@@ -79,10 +94,7 @@ def select_columnar():
 
 # Using the user's selection to call upon appropriate encryption functions 
 def callEncryptMethod():
-
     if selected_method == "Caesar":
-        InitialText = "Key must be shift Number"
-        outputText.insert("1.0", InitialText)
         plainText = inputText.get("1.0", "end-1c")
         key = keyEntry.get()
         test = Module.CaesarCipher(key)
@@ -225,12 +237,14 @@ def callDecryptMethod():
 
 # Label for Textbox 
 cipherLabel = customtkinter.CTkLabel(window, text="Cipher Method")
+print(type(cipherLabel))
 cipherLabel.place(x=120, y=2)
 
 # User Cipher Method Selection 
 # Caesar Cipher Button 
 caesar = customtkinter.CTkButton(window, text="Caesar", width=120, hover_color="red", corner_radius=25, text_color="black", command=select_caesar)
 caesar.place(x=25,y=25)
+print(type(caesar))
 
 # MonoAlphabetic Cipher Button
 monoAlpha = customtkinter.CTkButton(window, text="MonoAlphabetic", width=120, hover_color="red", corner_radius=25, text_color="black", command=select_Mono)
@@ -261,12 +275,14 @@ inputLabel = customtkinter.CTkLabel(window, text="Plain Text: ")
 inputLabel.place(x=130, y=170)
 inputText = customtkinter.CTkTextbox(window, height=12, width=320)
 inputText.place(x=0, y=190)
+print(type(inputText))
 
 # Key label and Entry to take the Input from the user 
 keyLabel = customtkinter.CTkLabel(window, text="Key:")
 keyLabel.place(x=140, y=230)
 keyEntry = customtkinter.CTkEntry(window, height=12, width=320, placeholder_text="Key goes here")
 keyEntry.place(x=0, y=250)
+print(type(keyEntry))
 
 # Creating Encryption Button 
 encryptButton = customtkinter.CTkButton(window, text="Encrypt", width=140, hover_color="red", corner_radius=25, text_color="black", command=callEncryptMethod)
