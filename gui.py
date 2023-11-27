@@ -19,7 +19,7 @@ def checkInstall(moduleName):
         subprocess.run(["pip", "install", moduleName])
         print(f"{moduleName} has been installed successfully!")
 
-requiredMod = ["numpy", "customtkinter"]
+requiredMod = ["packaging", "numpy", "customtkinter"]
 for module in requiredMod:
     try:
         subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade", "pip", "q", "--disable-pip-version-check"])
