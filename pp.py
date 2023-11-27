@@ -152,7 +152,6 @@ def callEncryptMethod():
     elif selected_method == "Columnar":
         key = keyEntry.get()
         keyArray = [int(char) for char in key]
-        print(keyArray)
         plainText = inputText.get("1.0", "end-1c")
         test = Module.Columnar(keyArray)
         encryptedText = test.Encrypt(plainText)
