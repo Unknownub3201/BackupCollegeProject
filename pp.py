@@ -2,6 +2,7 @@ import importlib
 import subprocess
 import sys 
 
+# Updating Pip if there's an update available
 def updatePip():
     try:
         subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade", "pip"])
@@ -13,18 +14,24 @@ def updatePip():
 def checkInstall(moduleName):
     try:
         importlib.import_module(moduleName)
+        print(f"checking for {moduleName}")
+        print(f"Requirements for {moduleName} already satisfied.")
     except ImportError:
-        print(f"{moduleName} is not installed. Installating...")
+        print(f"{moduleName} is not installed. Installating {moduleName}")
         subprocess.run(["pip", "install", moduleName])
         print(f"{moduleName} has been installed successfully.")
 
+# Checking for Pip update and calling updatePip
+try:
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade", "pip", "q", "--disable-pip-version-check"])
+    print("Pip is up-to-date.")
+except subprocess.CalledProcessError:
+    print("An update is available for pip, Updating")
+    updatePip()
+
+# Checking all required Modules and installing each
 requiredMod = ["packaging", "numpy", "customtkinter"]
 for module in requiredMod:
-    try:
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade", "pip"])
-    except subprocess.CalledProcessError as e:
-        print(f"Error updating Pip: {e}")
-        sys.exit(1)
     checkInstall(module)
 
 # Importing modules for various cipher methods and GUI
